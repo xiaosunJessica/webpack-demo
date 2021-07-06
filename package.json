@@ -5,11 +5,15 @@
   "scripts": {
     "preinstall": "node ./scripts/checkYarn.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cssTreeShaking": "webpack --config ./css-tree-shaking/webpack.config.js"
+    "cssTreeShaking": "webpack --config ./css-tree-shaking/webpack.config.js",
+    "webpackSource": "webpack --config ./webpack/webpack.config.js",
+    "testwebpack": "node ./webpack/run.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.6",
+    "fs": "^0.0.1-security",
     "webpack": "^5.42.1",
     "webpack-cli": "^4.7.2"
   },
