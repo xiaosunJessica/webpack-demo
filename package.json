@@ -7,17 +7,26 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cssTreeShaking": "webpack --config ./css-tree-shaking/webpack.config.js",
     "webpackSource": "webpack --config ./webpack/webpack.config.js",
-    "testwebpack": "node ./webpack/run.js"
+    "testwebpack": "node ./webpack/run.js",
+    "build": "node --inspect-brk=8881 ./node_modules/.bin/webpack --config ./webpack/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vue/compiler-dom": "^3.2.20",
+    "@vue/compiler-sfc": "^3.2.20",
     "ejs": "^3.1.6",
     "fs": "^0.0.1-security",
+    "koa": "^2.13.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-sfc": "^0.1.1",
+    "vue": "^3.0.5",
     "webpack": "^5.42.1",
     "webpack-cli": "^4.7.2"
   },
   "devDependencies": {
+    "@types/node": "^16.10.3",
     "css-loader": "^5.2.6",
     "husky": ">=6",
     "lint-staged": "^11.0.0",
