@@ -37,7 +37,7 @@ app.use(async (ctx) => {
     // 尝试去获取 /node_modules/.vite 下的编译过后的文件
     try {
       body = fs.readFileSync(
-        `${__dirname}/node_modules/.vite/${moduleName}.js`
+        `${path.join(__dirname, "../node_modules")}/.vite/${moduleName}.js`
       );
     } catch (err) {
       // 如果获取不到，使用 ESBuild 打包裸模块里的内容，转换为 ESM 供浏览器使用
@@ -46,12 +46,15 @@ app.use(async (ctx) => {
       esbuild.buildSync({
         entryPoints: [pkgPath],
         bundle: true,
-        outfile: `${__dirname}/node_modules/.vite/${moduleName}.js`,
+        outfile: `${path.join(
+          __dirname,
+          "../node_modules"
+        )}/.vite/${moduleName}.js`,
         format: "esm",
       });
       // 最后返回当前编译后的 JS 文件
       body = fs.readFileSync(
-        `${__dirname}/node_modules/.vite/${moduleName}.js`
+        `${path.join(__dirname, "../node_modules")}/.vite/${moduleName}.js`
       );
     }
 
