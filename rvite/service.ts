@@ -4,7 +4,7 @@ const path = require("path");
 const app = new Koa();
 // import { transformSync } from "esbuild";
 const esbuild = require("esbuild");
-app.use(async (ctx) => {
+app.use(async (ctx: any) => {
   const {
     request: { url, query },
   } = ctx;
@@ -77,7 +77,7 @@ app.listen(3000, () => {
   console.log("Vite Start ....");
 });
 
-function rewriteImport(content) {
+function rewriteImport(content: string) {
   return content.replace(/ from ['"](.*)['"]/g, function (s1, s2) {
     if (s2.startsWith("./") || s2.startsWith("/") || s2.startsWith("../")) {
       return s1;
