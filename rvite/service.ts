@@ -1,18 +1,15 @@
 const Koa = require("koa");
 const fs = require("fs");
 const path = require("path");
-const app = new Koa();
-// import { transformSync } from "esbuild";
 const esbuild = require("esbuild");
-app.use(async (ctx: any) => {
+const app = new Koa();
+app.use(async (ctx) => {
   const {
     request: { url, query },
   } = ctx;
   // ⾸⻚
   if (url == "/") {
     ctx.type = "text/html";
-    console.log(__dirname, "__dirname__dirname");
-
     let content = fs.readFileSync(
       path.join(__dirname, "./index.html"),
       "utf-8"
@@ -21,7 +18,6 @@ app.use(async (ctx: any) => {
   } else if (url.endsWith(".js")) {
     // js文件加载处理
     const p = path.join(__dirname, url);
-    console.log(p);
     ctx.type = "application/javascript";
     ctx.body = rewriteImport(fs.readFileSync(p, "utf8"));
   } else if (url.startsWith("/@modules/")) {
@@ -72,12 +68,25 @@ app.use(async (ctx: any) => {
     ctx.body = out.code;
     // const JSXFile
   }
+
+  if (url.endsWith('.css')) {
+    const filePath = path.join(__dirname, `/${url}`)
+    const CSSFile = JSON.stringify(fs.readFileSync(filePath).toString())
+
+    const file = `
+    const style = document.createElement('style')
+    style.textContent = ${CSSFile}
+    document.head.appendChild(style)
+    export default {}`
+    ctx.type = 'text/javascript'
+    ctx.body = file
+  }
 });
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log("Vite Start ....");
 });
 
-function rewriteImport(content: string) {
+function rewriteImport(content) {
   return content.replace(/ from ['"](.*)['"]/g, function (s1, s2) {
     if (s2.startsWith("./") || s2.startsWith("/") || s2.startsWith("../")) {
       return s1;
